@@ -1,10 +1,10 @@
 # Team-Project-2
-# Creditworthiness and Risk Assessment: Identifying Factors Influencing Credit Scores and Loan Approval Outcomes
+# Creditworthiness and Risk Assessment: Identifying Factors Influencing Credit Worthiness
 
 # Project Proposal: Creditworthiness Classification
 ## Objective
 The aim of our project is to uncover patterns in customer creditworthiness to help predict their likelihood of repaying loans. We’ll examine relationships between factors such as income levels, payment behavior, credit mix, and debt ratios. Our goal is to use these variables to classify customers into categories based on their credit scores—Good, Standard, or Poor—using a machine learning model. This project has the potential to support financial institutions in making data-driven decisions on loan approvals, minimizing risk, and promoting financial accessibility.
-
+The primary objective was to build, evaluate, and compare machine learning models to optimize credit score classification. Through this analysis, we aim to provide insights that can guide financial institutions in credit risk assessment.
 ## Questions:
 1. How do various financial metrics and demographics correlate with credit scores?
 2. What are the most influential factors impacting loan approval outcomes?
@@ -19,66 +19,86 @@ The project utilizes Python and employs libraries such as Pandas for data manipu
 
 ## Data Files
 The project uses the following CSV data files located in the `Resources` folder:
-1. `Credit_Scores.csv`: Historical data on credit scores.
-2. `Loan_Approval_Records.csv`: Loan approval/rejection records.
-3. `Financial_Stability.csv`: Metrics like income, debt-to-income ratio, and employment history.
-4. `Demographic_Info.csv`: Information such as age, education, and occupation.
+1. `credit_score_cleaned_train.csv`: Main Dataset cleanedup
+2. `Test.csv`: Raw Test Dataset
+
 
 ---
 
-## Key Functions & Workflow
+### Key Functions & Workflow
 
-1. **Data Import and Preparation**
-   - Import datasets using Pandas, filtering for relevant variables.
-   - Clean and preprocess data by handling missing values and standardizing formats.
+#### Data Import and Preparation
+- **Import Data**: Load datasets using Pandas, focusing on relevant variables like credit score, debt, interest rate, and payment history.
+- **Data Cleaning**: Handle missing values, remove irrelevant columns (e.g., `id`, `customer_id`), and encode categorical data for model compatibility.
+- **Standardization**: Apply `StandardScaler` to numerical features for consistent scaling across all models.
 
-2. **Credit Score Analysis**
-   - Filter credit score data to focus on the relevant time period (e.g., 2015-2024).
-   - Create monthly and annual averages to track trends in credit scores.
+#### Credit Score Analysis
+- **Trend Analysis**: Analyze the distribution of credit scores and key influencing factors (e.g., outstanding debt, interest rates) over time.
+- **Feature Analysis**: Compute monthly and annual averages for critical features such as outstanding debt and interest rates to observe trends affecting creditworthiness.
 
-3. **Data Merging**
-   - Merge datasets on common fields such as `ClientID` and `Date` to facilitate a comprehensive analysis of credit scores, loan outcomes, and influencing factors.
+#### Data Merging
+- **Merge Datasets**: Integrate datasets on fields like `ClientID` and `Date` to facilitate a holistic view of credit scores, loan status, and relevant financial indicators.
 
-4. **Data Visualization**
-   - Generate visualizations to highlight patterns across demographics, income, and loan approval rates. Visualizations are saved in the **Graphs** folder:
-     - Credit Score Trends Over Time
-     - Loan Approval Rates by Income Level
-     - Debt-to-Income Ratio vs. Credit Score
+#### Data Visualization
+- **Generate Key Visualizations**: Visualizations were created and saved in the `Graphs` folder to capture trends and relationships, including:
+  - **Feature Importance**: Highlights which factors (e.g., outstanding debt, interest rate) most influence credit score predictions.
+  - **Outstanding Debt Distribution**: Shows the frequency distribution of outstanding debt across the population.
+  - **Interest Rates and Credit Score Categories**: Illustrates how interest rates differ based on credit score groups.
+  - **Model Performance Comparison**: Displays accuracy, precision, recall, and F1 scores across Random Forest, Decision Tree, and SVM.
 
-5. **Correlation Analysis**
-   - Compute correlations between credit score and metrics like income, debt, and loan status, with findings such as:
-     - Positive correlation between stable income and higher credit scores.
-     - Inverse correlation between high debt-to-income ratio and loan approval likelihood.
+#### Correlation Analysis
+- **Compute Correlations**: Investigate correlations between credit scores and other factors, revealing insights such as:
+  - Positive correlation between low debt and higher credit scores.
+  - Negative correlation between high credit utilization and lower credit scores.
+  - Trends indicating that higher outstanding debt is linked to decreased creditworthiness.
 
-6. **Predictive Analysis**
-   - Utilize machine learning models to predict loan approval likelihood based on creditworthiness factors.
-
----
-
-# Examples and Outputs
+#### Predictive Analysis
+- **Machine Learning Models**: Developed and compared models (Random Forest, Decision Tree, and SVM) to predict creditworthiness and loan approval likelihood based on key features.
+- **Model Selection**: Based on evaluation metrics, Random Forest was identified as the optimal model for predicting credit scores with high accuracy and reliability.
 
 ## Output
 The code produces:
-1. **Graphs**: Visualizations in the `Graphs` folder:
-   - Credit Score Trends Over Time
-   - Loan Approval Rates by Income Level
-   - Debt-to-Income Ratio vs. Credit Score
+ **Graphs**: Visualizations saved in the `Graphs` folder:
+   - Feature Importance
+   - Outstanding Debt Distribution
+   - Interest Rates and Credit Score Categories
+   - Model Performance Comparison
+   - Correlation Heatmap of Key Metric and more
 
-2. **Correlation Analysis**: Printed correlation values to understand relationships between metrics.
+## Examples 
 
-## Examples
-1. **Plot Credit Score Trends Over Time:**
+# Plot Top 10 Feature Importance and All Features:
 
-   ```python
-   # Plotting average credit scores over time
-   credit_scores['Date'] = pd.to_datetime(credit_scores['Date'])
-   avg_scores = credit_scores.groupby(credit_scores['Date'].dt.year)['Credit_Score'].mean()
+Output: ![Alt text](Graphs/allfeatures.png)  
+Output: ![Alt text](Graphs/top10_feat.png)  
+>> Conclusion: This comparison highlights the most influential features driving credit score predictions, with outstanding debt and interest rates appearing as significant predictors.
 
-   plt.figure(figsize=(10, 6))
-   plt.plot(avg_scores.index, avg_scores.values, color='purple', label='Average Credit Score')
-   plt.xlabel('Year')
-   plt.ylabel('Average Credit Score')
-   plt.title('Average Credit Score Trends Over Time')
-   plt.legend()
-   plt.savefig('Graphs/CreditScoreTrend.png', dpi=300, bbox_inches='tight')
-   plt.show()
+# Plot Outstanding Debt Distribution:
+
+Output: ![Alt text](Graphs/OutstandingDebtDist.png)  
+>> Conclusion: The majority of the population has relatively low levels of outstanding debt, while a smaller subset shows higher debt levels, indicating potential credit risk.
+
+# Plot Model Performance Comparison:
+
+Output: ![Alt text](Graphs/Model_performance_comparison.png)  
+>> Conclusion: The Random Forest model achieved the highest performance across accuracy, precision, and recall, making it the most reliable model for creditworthiness prediction.
+
+# Plot Credit Scores Across All Models (Tweaked Scores):
+
+Output: ![Alt text](Graphs/TweakedScores_allModels.png)  
+>> Conclusion: Adjusting model parameters improved the spread of credit scores, refining predictions across different credit score ranges.
+
+# Plot Payment Behavior Analysis:
+
+Output: ![Alt text](Graphs/Payment Behaviour.png)  
+>> Conclusion: This analysis demonstrates a strong correlation between delayed payments and lower credit scores, affirming payment behavior as a critical factor.
+
+# Plot Confusion Matrices for All Models:
+
+Output: ![Alt text](Graphs/ConfusionMatrices.png)  
+>> Conclusion: Random Forest shows the least misclassifications, confirming its suitability as the primary model for accurate credit score predictions.
+
+# Plot Correlation Heatmap of Key Metrics:
+
+Output: ![Alt text](Graphs/CorrelationHeatmap.png)  
+>> Conclusion: Correlations reveal that high debt levels and increased credit utilization negatively impact credit scores, while stable payment behavior and low debt enhance creditworthiness.
